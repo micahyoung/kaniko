@@ -21,17 +21,15 @@ import (
 	"compress/bzip2"
 	"compress/gzip"
 	"fmt"
+	"github.com/GoogleContainerTools/kaniko/pkg/config"
+	"github.com/docker/docker/pkg/archive"
+	"github.com/pkg/errors"
+	"github.com/sirupsen/logrus"
 	"io"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
-	"syscall"
-
-	"github.com/GoogleContainerTools/kaniko/pkg/config"
-	"github.com/docker/docker/pkg/archive"
-	"github.com/pkg/errors"
-	"github.com/sirupsen/logrus"
 )
 
 // Tar knows how to write files to a tar file.
@@ -151,15 +149,6 @@ func (t *Tar) checkHardlink(p string, i os.FileInfo) (bool, string) {
 		}
 	}
 	return hardlink, linkDst
-}
-
-func getSyscallStatT(i os.FileInfo) *syscall.Stat_t {
-	if sys := i.Sys(); sys != nil {
-		if stat, ok := sys.(*syscall.Stat_t); ok {
-			return stat
-		}
-	}
-	return nil
 }
 
 // UnpackLocalTarArchive unpacks the tar archive at path to the directory dest

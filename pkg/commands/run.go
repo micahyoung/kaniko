@@ -98,13 +98,13 @@ func runCommandInExec(config *v1.Config, buildArgs *dockerfile.BuildArgs, cmdRun
 		return errors.Wrapf(err, "resolving user %s", userAndGroup[0])
 	}
 
-	// If specified, run the command as a specific user
-	if userStr != "" {
-		cmd.SysProcAttr.Credential, err = util.SyscallCredentials(userStr)
-		if err != nil {
-			return errors.Wrap(err, "credentials")
-		}
-	}
+	//// If specified, run the command as a specific user
+	//if userStr != "" {
+	//	cmd.SysProcAttr.Credential, err = util.SyscallCredentials(userStr)
+	//	if err != nil {
+	//		return errors.Wrap(err, "credentials")
+	//	}
+	//}
 
 	env, err := addDefaultHOME(userStr, replacementEnvs)
 	if err != nil {
